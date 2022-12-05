@@ -7,21 +7,21 @@ namespace Properties
     /// </summary>
     public class Card
     {
-        private readonly string seed;
-        private readonly string name;
-        private readonly int ordinal;
+        private readonly string _seeds;
+        private readonly string _name;
+        private readonly int _ordinal;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Card"/> class.
         /// </summary>
         /// <param name="name">the name of the card.</param>
-        /// <param name="seed">the seed of the card.</param>
+        /// <param name="_seeds">the _seeds of the card.</param>
         /// <param name="ordinal">the ordinal number of the card.</param>
-        public Card(string name, string seed, int ordinal)
+        public Card(string name, string seeds, int ordinal)
         {
-            this.name = name;
-            this.ordinal = ordinal;
-            this.seed = seed;
+            _name = name;
+            _ordinal = ordinal;
+            _seeds = seeds;
         }
 
         /// <summary>
@@ -32,33 +32,47 @@ namespace Properties
         {
         }
 
-        // TODO improve
-        public string GetSeed()
+        public string Seed
         {
-            return this.seed;
+            get => _seeds;
         }
 
-        // TODO improve
-        public string GetName()
+        public string Name
         {
-            return this.name;
+            get => _name;
         }
 
-        // TODO improve
-        public int GetOrdinal()
+        public int Ordinal
         {
-            return this.ordinal;
+            get => _ordinal;
         }
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString()
         {
             // TODO understand string interpolation
-            return $"{this.GetType().Name}(Name={this.GetName()}, Seed={this.GetSeed()}, Ordinal={this.GetOrdinal()})";
+            return $"{this.GetType().Name}(Name={Name}, Seed={Seed}, Ordinal={Ordinal})";
         }
 
         // TODO generate Equals(object obj)
+        public override bool Equals(object obj)
+        {
+            Card card = obj as Card;
+
+            if (card == null)
+            {
+                return false;
+            }
+
+            if (card.Name == _name && card.Seed == _seeds && card.Ordinal == _ordinal)
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         // TODO generate GetHashCode()
+        public override int GetHashCode() => HashCode.Combine(Name, Seed);
     }
 }
