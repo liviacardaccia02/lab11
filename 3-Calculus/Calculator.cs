@@ -26,7 +26,52 @@ namespace Calculus
     {
         public const char OperationPlus = '+';
         public const char OperationMinus = '-';
-
+        private Complex _shownValue;
+        
         // TODO fill this class
+
+        public Calculator()
+        {
+            _shownValue = new Complex(null, null);
+        }
+
+        public Complex Value 
+        {
+            get => _shownValue; 
+            set 
+            {
+                _shownValue = value;
+            }
+        }
+
+        public Complex Operation 
+        {
+            set;
+        }
+         
+        public Complex ComputeResult() 
+        { 
+            get => _shownValue; 
+        }
+
+        public Complex OperationPlus(Complex complex)
+        {
+            Value += complex;
+        }
+
+        public Complex OperationMinus(Complex complex)
+        {
+            Value += complex;
+        }
+
+        public override string ToString() 
+        {
+
+        }
+
+        public void Reset()
+        {
+            Value = null;
+        }
     }
 }
