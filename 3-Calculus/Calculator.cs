@@ -26,52 +26,81 @@ namespace Calculus
     {
         public const char OperationPlus = '+';
         public const char OperationMinus = '-';
-        private Complex _shownValue;
+        private char? _currentOperation;
+        private Complex _tmpResult;
         
         // TODO fill this class
 
         public Calculator()
         {
-            _shownValue = new Complex(null, null);
+            Value = null;
         }
 
-        public Complex Value 
+        public Complex Value { set; get; }
+
+        public char? Operation 
         {
-            get => _shownValue; 
-            set 
+            get => _currentOperation;
+            set
             {
-                _shownValue = value;
+                if (_tmpResult != null) 
+                {
+                    ComputeResult();
+                }
+                _currentOperation = value;
+                _tmpResult = Value;
+                Value = null;
             }
         }
-
-        public Complex Operation 
-        {
-            set;
-        }
          
-        public Complex ComputeResult() 
-        { 
-            get => _shownValue; 
-        }
-
-        public Complex OperationPlus(Complex complex)
+        public void ComputeResult() 
         {
-            Value += complex;
-        }
+            bool computing = (_currentOperation != null);
+            if (computing)
+            {
+                switch (_currentOperation) 
+                {
+                    case OperationPlus:
+                    Value = _tmpResult.Sum(Value);
+                    break;
 
-        public Complex OperationMinus(Complex complex)
-        {
-            Value += complex;
+                    case OperationMinus:
+                    Value = _tmpResult.Sub(Value);
+                    break;
+                }
+                _currentOperation = null;
+            } 
+            else 
+            {
+                _tmpResult = null;
+            }
         }
 
         public override string ToString() 
         {
-
+            if (Value == null  && _currentOperation == null)
+            {
+                return "null, null";
+            }
+            else if (Value == null && _currentOperation != null)
+            {
+                return $"null, {_currentOperation}";
+            }
+            else if (Value != null && _currentOperation == null)
+            {
+                return $"{Value}, null";
+            }
+            else
+            {
+                return $"{Value}, {_currentOperation}"; 
+            }
         }
 
         public void Reset()
         {
             Value = null;
+            _currentOperation = null;
+            _tmpResult = null;
         }
     }
 }
