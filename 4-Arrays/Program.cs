@@ -19,13 +19,12 @@ namespace Arrays
         /// <seealso cref="Examples.Max"/>
         public static Complex MaxModulus(Complex[] array)
         {
-            var min = double.MinValue;
-            var max = new Complex(min, min);
+            Complex max = null;
 
             for (int i = 0; i < array.Length; i++)
             {
                 var current = array[i];
-                if (current.Modulus > max.Modulus)
+                if (max == null || current.Modulus > max.Modulus)
                 {
                     max = current;
                 }
@@ -44,7 +43,12 @@ namespace Arrays
         /// TODO: implement this method
         public static Complex[] Clone(Complex[] array)
         {
-            return (Complex[]) array.Clone();
+            Complex[] clone = new Complex[array.Length];
+            for (int i = 0; i < array.Length; i++)
+            {
+                clone[i] = array[i];
+            }
+            return clone;
         }
 
         /// <summary>
@@ -60,18 +64,16 @@ namespace Arrays
         /// <seealso cref="Examples.BubbleSort"/>
         public static Complex[] SortByPhase(Complex[] array)
         {
-            var sorted = Program.Clone(array);
+            Complex[] sorted = Clone(array);
             for (int i = 0; i < sorted.Length; i++)
             {
                 for ( int j = i - 1; j >= 0; j--)
                 {
-                    var c1 = sorted[j + 1];
-                    var c2 = sorted[j];
-                    if (c1.Phase < c2.Phase)
+                    if (sorted[j + 1].Phase < sorted[j].Phase)
                     {
-                        var tmp = c2;
-                        c2 = c1;
-                        c1 = tmp;
+                        var tmp = sorted[j];
+                        sorted[j] = sorted[j + 1];
+                        sorted[j + 1] = tmp;
                     }
                 }
             }
@@ -90,12 +92,12 @@ namespace Arrays
         /// TODO: implement this method
         public static string ArrayToString(Complex[] array)
         {
-            string[] toString = new string[array.Length];
+            string toString = "[ ";
             for (int i = 0; i < array.Length; i++)
             {
-                toString[i] = "$[{ array[i].ToString() }] ; ";
+                toString += $"{ array[i].ToString() } ] ; ";
             }
-            return toString.ToString();
+            return toString;
         }
         /// <summary>
         /// Test method for the aforementioned array algorithms
