@@ -150,11 +150,11 @@ namespace Iterators
         /// <returns>the new sequence.</returns>
         public static IEnumerable<TAny> SkipSome<TAny>(this IEnumerable<TAny> sequence, long count)
         {
-            var enum = sequence.GetEnumerator();
-            for (int i = 0; i < count; i++) 
-            {
-                enum.MoveNext();
-            }
+            // var enum = sequence.GetEnumerator();
+            // for (int i = 0; i < count; i++) 
+            // {
+            //     enum.MoveNext();
+            // }
             return sequence;
         }
 
@@ -170,7 +170,8 @@ namespace Iterators
         /// <returns>the new sequence.</returns>
         public static IEnumerable<TAny> TakeWhile<TAny>(this IEnumerable<TAny> sequence, Predicate<TAny> predicate)
         {
-            return Filter(sequence, predicate);
+            var takewhile = Filter(sequence, predicate);
+            return takewhile;
         }
 
         /// <summary>
@@ -183,15 +184,22 @@ namespace Iterators
         /// <returns>the new sequence.</returns>
         public static IEnumerable<TAny> TakeSome<TAny>(this IEnumerable<TAny> sequence, long count)
         {
-            IEnumerable<TAny> part = default;
-            var enum = sequence.GetEnumerator();
-            for (int i = 0; i < count; i++) 
+            // IEnumerable<TAny> part = default;
+            // var enum = Enumerator.GetEnumerator();
+            // for (int i = 0; i < count; i++) 
+            // {
+            //     var passed = enum.Current;
+            //     enum.MoveNext();
+            //     part.Append(passed);
+            // }
+            foreach (var item in sequence)
             {
-                var passed = enum.Current();
-                enum.MoveNext();
-                part.Append(passed);
+                count--;
+                if (count > 0)
+                {
+                    yield return item;
+                }
             }
-            return part;
         }
 
         /// <summary>
@@ -201,11 +209,11 @@ namespace Iterators
         /// <returns>an infinite sequence of integers.</returns>
         public static IEnumerable<int> Integers(int start)
         {
-            IEnumerable<int> infinite = new IEnumerable<>();
+            IEnumerable<int> infinite = default;
             int i = 0;
             while(true)
             {
-                infinite.Add(i);
+                infinite.Append(i);
                 i++;
             }
         }
