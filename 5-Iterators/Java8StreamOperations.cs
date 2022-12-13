@@ -150,12 +150,15 @@ namespace Iterators
         /// <returns>the new sequence.</returns>
         public static IEnumerable<TAny> SkipSome<TAny>(this IEnumerable<TAny> sequence, long count)
         {
-            // var enum = sequence.GetEnumerator();
-            // for (int i = 0; i < count; i++) 
-            // {
-            //     enum.MoveNext();
-            // }
-            return sequence;
+            foreach (var item in sequence)
+            {
+                if (count > 0)
+                {
+                    count--;
+                    continue;
+                }
+                yield return item;
+            }
         }
 
         /// <summary>
@@ -184,14 +187,6 @@ namespace Iterators
         /// <returns>the new sequence.</returns>
         public static IEnumerable<TAny> TakeSome<TAny>(this IEnumerable<TAny> sequence, long count)
         {
-            // IEnumerable<TAny> part = default;
-            // var enum = Enumerator.GetEnumerator();
-            // for (int i = 0; i < count; i++) 
-            // {
-            //     var passed = enum.Current;
-            //     enum.MoveNext();
-            //     part.Append(passed);
-            // }
             foreach (var item in sequence)
             {
                 count--;
